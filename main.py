@@ -502,6 +502,8 @@ class OtaHttpHandler(http.server.BaseHTTPRequestHandler):
         with open(path, "rb") as f:
             f.seek(start)
             remaining = length
+            total_downloaded = 0
+            print(f"\n[设备下载分片] 请求区间: {start} ~ {end} 总大小 {length//1024//1024}MB")
             while remaining > 0:
                 chunk = f.read(min(64 * 1024, remaining))
                 if not chunk:
@@ -509,10 +511,16 @@ class OtaHttpHandler(http.server.BaseHTTPRequestHandler):
                 try:
                     self.wfile.write(chunk)
                 except (BrokenPipeError, ConnectionResetError):
+                    print(f"[设备下载分片] 连接中断，已传输 {total_downloaded}/{length} 字节")
                     return
-                remaining -= len(chunk)
+                chunk_len = len(chunk)
+                total_downloaded += chunk_len
+                remaining -= chunk_len
+                # 实时打印设备当前下载进度
+                progress = (total_downloaded / length) * 100 if length > 0 else 0
+                print(f"\r[设备下载实时进度] {progress:.2f}% 已传 {total_downloaded//1024}KB / {length//1024}KB", end="")
 
-        print(f"[+] 已发送 image.img [{start}-{end}] ({length} 字节)")
+        print(f"\n[+] 已发送 image.img [{start}-{end}] ({length} 字节)")
 
     def do_GET(self):
         path = self.path

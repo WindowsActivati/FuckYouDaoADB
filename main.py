@@ -591,7 +591,7 @@ def relaunch_as_admin():
 
 
 def parse_args():
-    p = argparse.ArgumentParser(description="Paper-Py: 有道词典笔 ADB 密码重置工具")
+    p = argparse.ArgumentParser(description="FuckYouDaoADB")
     p.add_argument("--image", default="image.img", help="固件文件名 (默认 image.img)")
     p.add_argument("--port", type=int, default=80, help="HTTP 服务端口 (默认 80)")
     p.add_argument("-v", "--verbose", action="store_true", help="详细输出")

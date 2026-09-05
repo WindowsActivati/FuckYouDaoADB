@@ -29,10 +29,10 @@ pip install scapy requests
 # 1. 开启 Windows 移动热点(默认 192.168.137.1)
 # 2. 词典笔连到此热点
 # 3. 以管理员权限运行:
-python paper.py --verbose
+python main.py --verbose
 
 # 跳过抓包(测试用):
-python paper.py --skip-capture \
+python main.py --skip-capture \
     --test-ota-url /product/1708583443/f730c7fa72bd3871/ota/checkVersion \
     --test-ota-body '{"timestamp":1755184821,"sign":"...","mid":"...","productId":"1708583443","version":"4.7.7","networkType":"WIFI"}'
 ```
